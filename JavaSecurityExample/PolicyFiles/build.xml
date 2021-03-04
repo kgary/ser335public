@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project name="SER335 example Java security with policy files"
+         default="targets" basedir="."
+         xmlns="antlib:org.apache.tools.ant">
+
+   <property name="src.dir" value="src"/>
+   <property name="build" value="classes"/>
+   <property name="lib" value="lib"/>
+   <property name="keystore" value="ser335Store"/>
+   <property name="keyword" value="ser335Security"/>
+   <property environment="env"/>
+   <property name="user" value="${env.USERNAME}"/>
+
+   <target name="targets">
+      <echo message="Targets are clean, prepare, build, genjar, execute, executeWithSecMgr, executeWithPolicy and targets"/>
+      <echo message="lib directory is: ${basedir}/${lib}"/>
+      <echo message="User name is: ${user}"/>
+      <echo message="basedir is: ${basedir}"/>
+      <echo message="os is: ${os.name}"/>
+   </target>
+
+   <path id="compile.classpath">
+      <pathelement location="${build}"/>
+   </path>
+
+   <target name="prepare">
+      <mkdir dir="${build}" />
+      <mkdir dir="${lib}" />
+   </target>
+
+   <target name="clean">
+      <delete dir="${build}" failonerror="false"/>
+      <delete dir="${lib}" failonerror="false"/>
+   </target>
+
+   <target name="build" depends="prepare">
+      <javac srcdir="${src.dir}"
+             includeantruntime="false"
+             destdir="${build}">
+         <classpath refid="compile.classpath"/>
+      </javac>
+   </target>
+
+   <target name="execute" depends="genjar">
+         <java jar="lib/PrintKeyStore.jar" fork="yes">
+           <classpath refid="compile.classpath"/>
+           <arg value="${basedir}/Data/${keystore}"/>
+           <arg value="${keyword}"/>
+         </java>
+   </target>
+
+   <target name="executeWithSecMgr" depends="genjar">
+         <java jar="lib/PrintKeyStore.jar" fork="yes">
+           <jvmarg value="-Djava.security.manager"/>
+           <classpath refid="compile.classpath"/>
+           <arg value="${basedir}/Data/${keystore}"/>
+           <arg value="${keyword}"/>
+         </java>
+   </target>
+
+   <target name="executeWithPolicy" depends="genjar">
+         <java jar="lib/PrintKeyStore.jar" fork="yes">
+           <jvmarg value="-Djava.security.manager"/>
+           <jvmarg value="-Djava.security.policy=${basedir}/policy"/>
+           <classpath>
+              <pathelement location="${basedir}/lib/PrintKeyStore.jar"/>
+           </classpath>
+           <arg value="${basedir}/Data/${keystore}"/>
+           <arg value="${keyword}"/>
+         </java>
+   </target>
+
+   <target name="genjar" depends="build">
+     <jar destfile="${lib}/PrintKeyStore.jar"
+          manifest="manifest.txt">
+         <fileset dir="${build}" includes="ser335/*/*"/>
+      </jar>
+   </target>
+
+</project>
+
+
