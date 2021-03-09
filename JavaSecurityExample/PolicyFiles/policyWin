@@ -1,0 +1,3 @@
+grant codeBase "file:C:/Users/kgary/work/asu/classes/ser335Security/ser335public/JavaSecurityExample/PolicyFiles/lib/*" {
+  permission java.io.FilePermission "/Users/kgary/work/asu/classes/ser335Security/ser335public/JavaSecurityExample/PolicyFiles/Data/ser335Store", "read";
+};
