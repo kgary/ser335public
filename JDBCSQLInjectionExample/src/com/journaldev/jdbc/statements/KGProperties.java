@@ -25,8 +25,10 @@ public final class KGProperties {
 	public static Properties getProps() {
 		try {
 			if (__theProps == null) {
-				__theProps = System.getProperties();
-				__theProps.load(new FileInputStream("example.properties"));
+			        __theProps = System.getProperties();
+				String propFile = System.getProperty("db");
+				if (propFile == null) propFile="mysql";
+				__theProps.load(new FileInputStream(propFile+".properties"));
 			}
 			// return a safe clone instead of the object for security reasons
 			Properties cloneProps = new Properties();

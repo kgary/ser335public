@@ -6,7 +6,7 @@ public final class QueryStrategyFactory {
 	private static Properties props = KGProperties.getProps();
 	
 	public static final IQueryStrategy getQueryStrategy() {
-		String iqs = props.getProperty("strategy.impl", "stmt");
+		String iqs = props.getProperty("strategy.impl", "ps");
 		if (iqs.equals("stmt")) {
 			return new StatementStrategy();
 		}
