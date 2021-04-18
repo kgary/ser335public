@@ -21,7 +21,7 @@ public class GetUserDetailsKG {
 
 	private static void printUserData(String id, String pwd) {
 
-		IQueryStrategy queryStrategy = QueryStrategyFactory.getQueryStrategy();
+		IQueryStrategy queryStrategy = QueryStrategyFactory2.getQueryStrategy();
 		List<PersonBean> people = queryStrategy.executeQuery(id, pwd);
 
 		if (people == null || people.isEmpty()) {
